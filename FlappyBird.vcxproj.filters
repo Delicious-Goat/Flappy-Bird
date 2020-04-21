@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Assets">
+      <UniqueIdentifier>d352a0e0-98d2-4430-863c-b225350bbb0e</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dds;dlg;fbx;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Art">
+      <UniqueIdentifier>{932ff398-fb6c-4790-bea5-ab3c787365ab}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="StepTimer.h" />
+    <ClInclude Include="Components\Bird.h" />
+    <ClInclude Include="Components\ScrollingBackground.h" />
+    <ClInclude Include="Components\Renderer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Components\Bird.cpp" />
+    <ClCompile Include="Components\Renderer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="settings.manifest">
+      <Filter>Assets</Filter>
+    </Manifest>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Art\FlappyBirdIcon.ico">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Art\Background.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Art\FlappyBird.jpg">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Art\Bird.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Art\ground.png">
+      <Filter>Assets</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>
