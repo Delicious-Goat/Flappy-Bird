@@ -185,8 +185,11 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Art\Background.png" />
+    <Image Include="Art\bird-01.png" />
+    <Image Include="Art\bird-02.png" />
+    <Image Include="Art\bird-03.png" />
+    <Image Include="Art\bird-04.png" />
     <Image Include="Art\Bird.png" />
-    <Image Include="Art\FlappyBird.jpg" />
     <Image Include="Art\FlappyBirdIcon.ico" />
     <Image Include="Art\ground.png" />
   </ItemGroup>

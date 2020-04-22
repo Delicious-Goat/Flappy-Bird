@@ -13,16 +13,18 @@ private:
 	const float gravity = 1;
 	const float lift = 5; 
 
+	int currentFrame;
 	float rotation;
-
+	static float normalize(float x) { return 40 / (1 + exp(-.1 * x)) - 20; }
+	
 	bool dead;
 
 public:
 	Bird();
-	~Bird();
+	~Bird() = default;
 
 	void Flap();
-	void Update(float elapsedTime, bool active);
+	void Update(int frameCount, bool active);
 	void Draw(Renderer& renderer);
 
 

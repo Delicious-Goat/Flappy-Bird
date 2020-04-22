@@ -105,13 +105,13 @@ void Game::Update(DX::StepTimer const& timer)
     // TODO: Add your game logic here.
     ground->Update(elapsedTime*speed);
     background->Update(elapsedTime * speed*.2);
-    
     if(active)
-     bird->Update(elapsedTime,active);
+        bird->Update(int(timer.GetFrameCount()), active);
     else
     {
         bird->setY(350 + sinf(6.28*timer.GetFrameCount()/100)*40);
-        bird->Update(elapsedTime, active);
+        bird->Update(int(timer.GetFrameCount()), active);
+
     }
 
     elapsedTime;
@@ -137,6 +137,7 @@ void Game::Render()
 
     background->Draw(renderer, 0);
     ground->Draw(renderer, 1);
+
 
     bird->Draw(renderer);
 
@@ -288,6 +289,7 @@ void Game::CreateDevice()
 
     //Initialize renderer
     renderer.Init(m_d3dDevice, m_d3dContext);    
+
 }
 
 // Allocate all memory resources that change on a window SizeChanged event.
@@ -394,7 +396,6 @@ void Game::CreateResources()
    // ground->SetWindow(backBufferWidth, backBufferHeight);
     background->SetWindow(backBufferWidth, backBufferHeight,0);
     ground->SetWindow(backBufferWidth, backBufferHeight,1);
-
 }
 
 void Game::OnDeviceLost()

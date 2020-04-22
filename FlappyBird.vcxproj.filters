@@ -39,13 +39,22 @@
     <Image Include="Art\Background.png">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Art\FlappyBird.jpg">
+    <Image Include="Art\ground.png">
       <Filter>Assets</Filter>
     </Image>
     <Image Include="Art\Bird.png">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Art\ground.png">
+    <Image Include="Art\bird-01.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Art\bird-02.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Art\bird-03.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Art\bird-04.png">
       <Filter>Assets</Filter>
     </Image>
   </ItemGroup>

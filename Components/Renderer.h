@@ -24,9 +24,10 @@ private:
 	int screenWidth;
 
 	//texture
-	ComPtr<ID3D11ShaderResourceView> birdTexture;
-	unique_ptr<DirectX::SpriteBatch> spriteBatch;
+	ComPtr<ID3D11ShaderResourceView> birdTextures[4];
 
+
+	unique_ptr<DirectX::SpriteBatch> spriteBatch;
 
 	//TODO look into this
 	Vector2 origin;
@@ -42,7 +43,7 @@ public:
 	~Renderer() = default;
 
 	//Draw functions
-	void DrawBird(Vector2 pos, float rot);
+	void DrawBird(Vector2 pos, float rot, int frame);
 	void DrawBackground(Vector2 screenPos, Vector2 origin, int type);
 
 	//Init functions

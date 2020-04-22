@@ -11,35 +11,46 @@ Bird::Bird()
 	yVelocity = 0;
 	rotation = 0;
 	dead = false;
+	currentFrame = 0;
 }
 
-Bird::~Bird()
-{
-}
 
 void Bird::Flap()
 {
 	yVelocity -= lift;
 }
 
-void Bird::Update(float elapseTime, bool active)
+void Bird::Update(int frameCount, bool active)
 {
+	//Only apply gravity during active game
 	if(active)
 		yVelocity += gravity;
 
-	//cap velocity
+	//Cap velocity
 	if (yVelocity < -15)
 		yVelocity = -15;
 
 	screenPos.y += yVelocity*.9;
 
-	//don't fall out of the screen
+	//Don't fall out of the screen
 	if (screenPos.y > screenHeight - 300)
 	{
 		dead = true;
 		screenPos.y = screenHeight - 300;
 		yVelocity = 0;
 	}
+
+	//Animation
+	if (frameCount % 4 == 0)
+	{
+		currentFrame++;
+		if (currentFrame > 3)
+			currentFrame = 0;
+	}
+
+	//Only flap wings if going up
+	if (yVelocity >= 0)
+		currentFrame = 0;
 
 }
 
@@ -48,21 +59,18 @@ void Bird::Draw(Renderer& renderer)
 	//Set rotation in relation to velocity
 	rotation = yVelocity * 5;
 
-
-	//limit rotation
-	//TODO: normalize between -40 and 40
-	if (rotation > 40)
-		rotation = 40;
-	if (rotation < -40)
-		rotation = -40;
-
-
-	//convert from degrees to radians
+	if (yVelocity > 2)
+	{
+		rotation = pow(2, .8*yVelocity);
+		if (rotation > 90)
+			rotation = 90;
+	}
+	else
+		rotation = normalize(rotation);
+	// normalize rotation between -40 and 40 then convert from degrees to radians
 	rotation = rotation * (3.14 / 180);
 
-
-	
-	renderer.DrawBird(screenPos, rotation);
+	renderer.DrawBird(screenPos, rotation, currentFrame);
 }
 
 void Bird::setScreenPos(Vector2 newPos)

@@ -11,11 +11,9 @@ Renderer::Renderer() :
 {
 }
 
-void Renderer::DrawBird(Vector2 pos, float rot)
+void Renderer::DrawBird(Vector2 pos, float rot, int frame)
 {
-
-
-	spriteBatch->Draw(birdTexture.Get(), pos, nullptr, Colors::White, rot, origin, 3.5);	
+	spriteBatch->Draw(birdTextures[frame].Get(), pos, nullptr, Colors::White, rot, origin, 3.5);	
 }
 
 void Renderer::DrawBackground(Vector2 screenPos, Vector2 origin, int type)
@@ -67,7 +65,10 @@ backgroundTextureData Renderer::LoadScrollingTexture(int type)
 
 void Renderer::OnDeviceLost()
 {
-	birdTexture.Reset();
+	for (int i = 0; i < 4; i++)
+	{
+		birdTextures[i].Reset();
+	}
 	backgroundTex.Reset();
 	groundTex.Reset();
 	spriteBatch.reset();
@@ -84,12 +85,27 @@ void Renderer::Init(Microsoft::WRL::ComPtr<ID3D11Device1> dev, Microsoft::WRL::C
 	//Init sprite batch
 	spriteBatch = std::make_unique<SpriteBatch>(context.Get());
 
-	//Init Bird Texture
+	//TODO remove this?
 	ComPtr<ID3D11Resource> resource;
+
+	//Init Bird Textures
+
 	DX::ThrowIfFailed(
-		CreateWICTextureFromFile(device.Get(), L"Art/Bird.png",
+		CreateWICTextureFromFile(device.Get(), L"Art/bird-01.png",
 			resource.GetAddressOf(),
-			birdTexture.ReleaseAndGetAddressOf()));
+			birdTextures[0].ReleaseAndGetAddressOf()));
+	DX::ThrowIfFailed(
+		CreateWICTextureFromFile(device.Get(), L"Art/bird-02.png",
+			resource.GetAddressOf(),
+			birdTextures[1].ReleaseAndGetAddressOf()));
+	DX::ThrowIfFailed(
+		CreateWICTextureFromFile(device.Get(), L"Art/bird-03.png",
+			resource.GetAddressOf(),
+			birdTextures[2].ReleaseAndGetAddressOf()));
+	DX::ThrowIfFailed(
+		CreateWICTextureFromFile(device.Get(), L"Art/bird-04.png",
+			resource.GetAddressOf(),
+			birdTextures[3].ReleaseAndGetAddressOf()));
 
 	ComPtr<ID3D11Texture2D> birdTex;
 	DX::ThrowIfFailed(resource.As(&birdTex));
