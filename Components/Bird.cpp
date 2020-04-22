@@ -26,17 +26,17 @@ void Bird::Update(int frameCount, bool active)
 	if(active)
 		yVelocity += gravity;
 
-	//Cap velocity
+	//Cap up velocity
 	if (yVelocity < -15)
 		yVelocity = -15;
 
 	screenPos.y += yVelocity*.9;
 
 	//Don't fall out of the screen
-	if (screenPos.y > screenHeight - 300)
+	if (screenPos.y > screenHeight - 250)
 	{
 		dead = true;
-		screenPos.y = screenHeight - 300;
+		screenPos.y = screenHeight - 250;
 		yVelocity = 0;
 	}
 
@@ -59,9 +59,10 @@ void Bird::Draw(Renderer& renderer)
 	//Set rotation in relation to velocity
 	rotation = yVelocity * 5;
 
-	if (yVelocity > 2)
+	//Nose dive if descencing faster that 15
+	if (yVelocity > 18)
 	{
-		rotation = pow(2, .8*yVelocity);
+		rotation = 3.5 * yVelocity;
 		if (rotation > 90)
 			rotation = 90;
 	}

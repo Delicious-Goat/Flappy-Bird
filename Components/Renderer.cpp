@@ -13,7 +13,12 @@ Renderer::Renderer() :
 
 void Renderer::DrawBird(Vector2 pos, float rot, int frame)
 {
-	spriteBatch->Draw(birdTextures[frame].Get(), pos, nullptr, Colors::White, rot, origin, 3.5);	
+	spriteBatch->Draw(birdTextures[frame].Get(), pos, nullptr, Colors::White, rot, origin, 3);	
+}
+
+void Renderer::DrawPipe(Vector2 pos)
+{
+	spriteBatch->Draw(pipeTexture.Get(), pos, nullptr, Colors::White, 0, Vector2(40,335), 2.f);
 }
 
 void Renderer::DrawBackground(Vector2 screenPos, Vector2 origin, int type)
@@ -69,11 +74,12 @@ void Renderer::OnDeviceLost()
 	{
 		birdTextures[i].Reset();
 	}
+	states.reset();
+	pipeTexture.Reset();
 	backgroundTex.Reset();
 	groundTex.Reset();
 	spriteBatch.reset();
 }
-
 
 
 void Renderer::Init(Microsoft::WRL::ComPtr<ID3D11Device1> dev, Microsoft::WRL::ComPtr<ID3D11DeviceContext1> cont)
@@ -89,7 +95,6 @@ void Renderer::Init(Microsoft::WRL::ComPtr<ID3D11Device1> dev, Microsoft::WRL::C
 	ComPtr<ID3D11Resource> resource;
 
 	//Init Bird Textures
-
 	DX::ThrowIfFailed(
 		CreateWICTextureFromFile(device.Get(), L"Art/bird-01.png",
 			resource.GetAddressOf(),
@@ -116,13 +121,22 @@ void Renderer::Init(Microsoft::WRL::ComPtr<ID3D11Device1> dev, Microsoft::WRL::C
 	origin.x = float(birdDesc.Width / 2);
 	origin.y = float(birdDesc.Height / 2);
 
-	//background
+	//Init States
+	states = std::make_unique<CommonStates>(device.Get());
+
+	//Pipe
+	DX::ThrowIfFailed(CreateWICTextureFromFile(device.Get(), L"Art/pipe.png",
+		nullptr, pipeTexture.ReleaseAndGetAddressOf()));
+
+	//Background
 	DX::ThrowIfFailed(CreateWICTextureFromFile(device.Get(), L"Art/Background.png",
 		nullptr, backgroundTex.ReleaseAndGetAddressOf()));
 
-	//background
+	//Ground
 	DX::ThrowIfFailed(CreateWICTextureFromFile(device.Get(), L"Art/ground.png",
 		nullptr, groundTex.ReleaseAndGetAddressOf()));
+
+
 }
 
 void Renderer::SetWindow(int w, int h)

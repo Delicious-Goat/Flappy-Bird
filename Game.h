@@ -8,6 +8,7 @@
 #include "Renderer.h"
 #include  "ScrollingBackground.h"
 #include "Bird.h"
+#include "Pipe.h"
 #include "pch.h"
 
 // A basic game implementation that creates a D3D11 device and
@@ -87,4 +88,7 @@ private:
 
     //Bird
     Bird* bird;
+
+    //Pipe
+    Pipe* pipes[6];
 };

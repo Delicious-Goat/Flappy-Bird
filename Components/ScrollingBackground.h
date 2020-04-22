@@ -21,7 +21,7 @@ public:
         if (type == 0)
             mScreenPos.y = 0;
         else
-            mScreenPos.y = 750;
+            mScreenPos.y = 800;
     }
 
     void Update(float deltaX)

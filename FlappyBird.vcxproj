@@ -163,6 +163,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Components\ScrollingBackground.h" />
+    <ClInclude Include="Components\Pipe.h" />
     <ClInclude Include="StepTimer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -176,6 +177,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Components\Pipe.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
@@ -189,9 +191,9 @@
     <Image Include="Art\bird-02.png" />
     <Image Include="Art\bird-03.png" />
     <Image Include="Art\bird-04.png" />
-    <Image Include="Art\Bird.png" />
     <Image Include="Art\FlappyBirdIcon.ico" />
     <Image Include="Art\ground.png" />
+    <Image Include="Art\pipe.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

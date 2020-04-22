@@ -26,6 +26,7 @@ private:
 	//texture
 	ComPtr<ID3D11ShaderResourceView> birdTextures[4];
 
+	ComPtr<ID3D11ShaderResourceView> pipeTexture;
 
 	unique_ptr<DirectX::SpriteBatch> spriteBatch;
 
@@ -38,12 +39,16 @@ private:
 	ComPtr<ID3D11ShaderResourceView> groundTex;
 	Vector2 groundTexSize;
 
+	//States
+	std::unique_ptr<DirectX::CommonStates> states;
+
 public:
 	Renderer();
 	~Renderer() = default;
 
 	//Draw functions
 	void DrawBird(Vector2 pos, float rot, int frame);
+	void DrawPipe(Vector2 pos);
 	void DrawBackground(Vector2 screenPos, Vector2 origin, int type);
 
 	//Init functions
@@ -53,7 +58,7 @@ public:
 	void SetWindow(int w, int h);
 	
 	void OnDeviceLost();
-	inline void BeginSpriteBatch(){ spriteBatch->Begin(); }
+	inline void BeginSpriteBatch(){ spriteBatch->Begin(SpriteSortMode_Deferred, states->NonPremultiplied()); }
 	inline void EndSpriteBatch(){ spriteBatch->End(); }
 
 	//Setters

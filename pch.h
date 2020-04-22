@@ -44,6 +44,7 @@
 #include <string>
 #include <sstream>
 #include <math.h>
+#include <stdlib.h>
 
 
 //DirectxTK
