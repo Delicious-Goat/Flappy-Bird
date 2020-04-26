@@ -1,6 +1,8 @@
 #pragma once
 #include "pch.h"
+#include "pipe.h"
 #include "Renderer.h"
+#include "ThreadPool.h"
 
 using namespace DirectX::SimpleMath;
 class Bird
@@ -11,7 +13,7 @@ private:
 	int screenHeight;
 
 	const float gravity = 1;
-	const float lift = 5; 
+	const float lift = 40; 
 
 	int currentFrame;
 	float rotation;
@@ -19,9 +21,19 @@ private:
 	
 	bool dead;
 
+	Pipe** pipes;
+
+	int w, h;
+
+	bool collisionDetection(Vector2* birdPoints, Vector2* pipePoints);
+
 public:
-	Bird();
-	~Bird() = default;
+	Bird(Pipe* pipesInit[6]);
+	~Bird();
+
+	//Move private
+	Vector2* getBirdPoints(Vector2* points);
+	Vector2* getPipePoints(Vector2* points, int index, int top);
 
 	void Flap();
 	void Update(int frameCount, bool active);

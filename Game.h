@@ -72,14 +72,15 @@ private:
     DX::StepTimer                                   m_timer;
 
     //keyboard and mouse
-    std::unique_ptr<DirectX::Keyboard> m_keyboard;
-    std::unique_ptr<DirectX::Mouse> m_mouse;
+    std::unique_ptr<DirectX::Keyboard> keyboard;
+    Keyboard::KeyboardStateTracker tracker;
+    std::unique_ptr<DirectX::Mouse> mouse;
 
     //Renderer
     Renderer renderer;
 
     //Speed
-    const float speed = 400;
+    const float speed = 500;
     bool active;
 
     //Background

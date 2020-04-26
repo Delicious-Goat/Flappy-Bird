@@ -7,6 +7,7 @@
 #include <string>
 #include <sstream>
 
+
 std::wstringstream wss(L"");
 wss << rot << " " << " " << "\n";
 OutputDebugString(wss.str().c_str());
@@ -30,12 +31,12 @@ Game::Game() noexcept :
     m_outputHeight(600),
     m_featureLevel(D3D_FEATURE_LEVEL_9_1)
 {
-    bird = new Bird;
-
     for (int i = 0; i < 6; i++)
     {
         pipes[i] = new Pipe(i);
     }
+
+    bird = new Bird(pipes);
 
     background = new ScrollingBackground;
     ground = new ScrollingBackground;
@@ -46,6 +47,7 @@ Game::Game() noexcept :
 Game::~Game()
 { 
     delete bird;
+
     for (int i = 5; i >= 0; i--)
     {
         delete pipes[i];
@@ -66,9 +68,9 @@ void Game::Initialize(HWND window, int width, int height)
 
     CreateResources();
 
-    m_keyboard = std::make_unique<Keyboard>();
-    m_mouse = std::make_unique<Mouse>();
-    m_mouse->SetWindow(window);
+    keyboard = std::make_unique<Keyboard>();
+    mouse = std::make_unique<Mouse>();
+    mouse->SetWindow(window);
     // TODO: Change the timer settings if you want something other than the default variable timestep mode.
     // e.g. for 60 FPS fixed timestep update logic, call:
     /*
@@ -90,19 +92,28 @@ void Game::Tick()
 
 void Game::Input()
 {
-    auto kb = m_keyboard->GetState();
+    auto kb = keyboard->GetState();
+    auto mouseState = mouse->GetState();
+    auto state = keyboard->GetState();
+    tracker.Update(state);
+
     if (kb.Escape)
     {
         ExitGame();
     }
-    if (kb.Space)
+    if (tracker.pressed.Space)
+    {
+
+        if (!active)
+            active = true;
+        bird->Flap();
+    }
+    if (mouseState.leftButton)
     {
         if (!active)
             active = true;
         bird->Flap();
     }
-
-    auto mouse = m_mouse->GetState();
 }
 
 // Updates the world.
@@ -111,9 +122,16 @@ void Game::Update(DX::StepTimer const& timer)
     float elapsedTime = float(timer.GetElapsedSeconds());
     float time = float(timer.GetTotalSeconds());
 
-    // TODO: Add your game logic here.
+    if (bird->isDead())
+    {
+        bird->Update(int(timer.GetFrameCount()), active);
+        return;
+
+    }
+
     ground->Update(elapsedTime*speed);
     background->Update(elapsedTime * speed*.2);
+
     if (active)
     {
         bird->Update(int(timer.GetFrameCount()), active);
@@ -153,14 +171,13 @@ void Game::Render()
 
     for (int i = 0; i < 6; i++)
     {
-        pipes[i]->Draw(renderer);
+       pipes[i]->Draw(renderer);
     }
 
     ground->Draw(renderer, 1);
 
     bird->Draw(renderer);
 
-    
 
     renderer.EndSpriteBatch();
 
@@ -417,6 +434,8 @@ void Game::CreateResources()
    // ground->SetWindow(backBufferWidth, backBufferHeight);
     background->SetWindow(backBufferWidth, backBufferHeight,0);
     ground->SetWindow(backBufferWidth, backBufferHeight,1);
+
+
 }
 
 void Game::OnDeviceLost()
@@ -424,13 +443,16 @@ void Game::OnDeviceLost()
     // TODO: Add Direct3D resource cleanup here.
     renderer.OnDeviceLost();
 
+    tracker.Reset();
     m_depthStencilView.Reset();
     m_renderTargetView.Reset();
     m_swapChain.Reset();
     m_d3dContext.Reset();
     m_d3dDevice.Reset();
 
+
     CreateDevice();
 
     CreateResources();
+
 }

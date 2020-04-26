@@ -30,8 +30,6 @@ private:
 
 	unique_ptr<DirectX::SpriteBatch> spriteBatch;
 
-	//TODO look into this
-	Vector2 origin;
 
 	//textures
 	ComPtr<ID3D11ShaderResourceView> backgroundTex;
@@ -69,4 +67,6 @@ public:
 	//getters
 	inline int GetScreenWidth() { return screenWidth; }
 	inline int GetScreenHeight() { return screenHeight; }
+	inline ComPtr<ID3D11ShaderResourceView> GetBirdTexture() { return birdTextures[0]; }
+	inline ComPtr<ID3D11ShaderResourceView> GetPipeTexture() { return pipeTexture; }
 };

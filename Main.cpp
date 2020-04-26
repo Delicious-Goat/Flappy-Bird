@@ -270,18 +270,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_RBUTTONUP:
     case WM_MBUTTONDOWN:
     case WM_MBUTTONUP:
+        Mouse::ProcessMessage(message, wParam, lParam);
+        break;
     case WM_MOUSEWHEEL:
     case WM_XBUTTONDOWN:
     case WM_XBUTTONUP:
     case WM_MOUSEHOVER:
         Mouse::ProcessMessage(message, wParam, lParam);
         break;
-
     case WM_KEYDOWN:
-        
-    case WM_KEYUP:
         Keyboard::ProcessMessage(message, wParam, lParam);
         break;
+    case WM_KEYUP:
+
     case WM_SYSKEYUP:
         Keyboard::ProcessMessage(message, wParam, lParam);
         break;

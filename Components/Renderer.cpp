@@ -13,12 +13,12 @@ Renderer::Renderer() :
 
 void Renderer::DrawBird(Vector2 pos, float rot, int frame)
 {
-	spriteBatch->Draw(birdTextures[frame].Get(), pos, nullptr, Colors::White, rot, origin, 3);	
+	spriteBatch->Draw(birdTextures[frame].Get(), pos, nullptr, Colors::White, rot, Vector2(50,35), 1.f);	
 }
 
 void Renderer::DrawPipe(Vector2 pos)
 {
-	spriteBatch->Draw(pipeTexture.Get(), pos, nullptr, Colors::White, 0, Vector2(40,335), 2.f);
+	spriteBatch->Draw(pipeTexture.Get(), pos, nullptr, Colors::White, 0, Vector2(0,900), 1.f);
 }
 
 void Renderer::DrawBackground(Vector2 screenPos, Vector2 origin, int type)
@@ -118,8 +118,6 @@ void Renderer::Init(Microsoft::WRL::ComPtr<ID3D11Device1> dev, Microsoft::WRL::C
 	CD3D11_TEXTURE2D_DESC birdDesc;
 	birdTex->GetDesc(&birdDesc);
 
-	origin.x = float(birdDesc.Width / 2);
-	origin.y = float(birdDesc.Height / 2);
 
 	//Init States
 	states = std::make_unique<CommonStates>(device.Get());

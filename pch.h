@@ -31,7 +31,11 @@
 #include <Windows.h>
 
 #include <wrl/client.h>
-
+/*
+#include <d3d9helper.h>
+#include <D3D9Types.h>
+#include <d3d9.h>
+*/
 #include <d3d11_1.h>
 #include <dxgi1_2.h>
 #include <DirectXMath.h>
@@ -45,7 +49,13 @@
 #include <sstream>
 #include <math.h>
 #include <stdlib.h>
-
+#include <thread>
+#include <vector>
+#include <queue>
+#include <mutex>
+#include <condition_variable>
+#include <future>
+#include <functional>
 
 //DirectxTK
 #include "CommonStates.h"
@@ -66,6 +76,7 @@
 #include "SpriteFont.h"
 #include "VertexTypes.h"
 #include "WICTextureLoader.h"
+
 namespace DX
 {
     inline void ThrowIfFailed(HRESULT hr)

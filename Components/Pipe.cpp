@@ -4,9 +4,11 @@
 Pipe::Pipe(int initPlace)
 {
 	index = initPlace;
+
 	screenPos.x = 1700 + index*(1600/4);
-	screenPos.y = rand()%300 + 250;
-	gapY = 500;
+
+	screenPos.y = rand()%400 + 200;
+
 }
 
 void Pipe::Draw(Renderer& renderer)
@@ -20,7 +22,7 @@ void Pipe::Update(float deltaX)
 	if (screenPos.x + 40 <= -400)
 	{
 		screenPos.x = 2000 - 40;
-		screenPos.y = rand() % 300 + 250;
+		screenPos.y = rand() % 400 + 200;
 	}
 }
 
