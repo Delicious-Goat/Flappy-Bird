@@ -38,9 +38,6 @@
     <Image Include="Art\FlappyBirdIcon.ico">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="Art\Background.png">
-      <Filter>Assets</Filter>
-    </Image>
     <Image Include="Art\ground.png">
       <Filter>Assets</Filter>
     </Image>
@@ -57,6 +54,9 @@
       <Filter>Assets</Filter>
     </Image>
     <Image Include="Art\pipe.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Art\Background.png">
       <Filter>Assets</Filter>
     </Image>
   </ItemGroup>
