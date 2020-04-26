@@ -98,13 +98,13 @@ bool Bird::collisionDetection(Vector2* birdPoints, Vector2* pipePoints)
 
 	if (birdRect.Intersects(pipeRect))
 	{
-		//OutputDebugStringA("BB collision");
+
 		for (int i = 0; i < 6; i++)
 		{
 			if (pipeRect.Contains(birdPoints[i]))
 			{
 				return true;
-			}
+			}	
 	
 		}
 
@@ -119,6 +119,7 @@ void Bird::Flap()
 	
 	yVelocity -= lift;
 }
+
 
 void Bird::Update(int frameCount, bool active)
 {
@@ -145,7 +146,6 @@ void Bird::Update(int frameCount, bool active)
 
 	Vector2 birdPointsArr[6];
 	Vector2* birdPoints = getBirdPoints(birdPointsArr);
-
 	//check each pipe
 	for (int i = 0; i < 6; i++)
 	{
@@ -163,19 +163,21 @@ void Bird::Update(int frameCount, bool active)
 				{
 					continue;
 				}
+
 				if (j == 1 && birdPoints[3].y < pipePoints[0].y - 20)
 				{
 					continue;
 				}
+				
 				//if x and y coords are viable, check collision
-				if (collisionDetection(birdPoints, pipePoints))
-				{
+				if (collisionDetection(birdPoints, pipePoints)) {
 					dead = true;
 				}
 
 			}
 		}
 	}
+
 
 	//Only apply gravity during active game
 	if (active)
@@ -216,7 +218,7 @@ void Bird::Update(int frameCount, bool active)
 	//rotation = yVelocity * 5;
 
 	//TODO: improve this algorithm 
-	/*
+	
 	if (rotation < -40)
 	{
 		rotation = -40;
@@ -224,8 +226,8 @@ void Bird::Update(int frameCount, bool active)
 	if (rotation > 10)
 	{
 		rotation = 10;
-	}*/
-	rotation =  ((90 * (yVelocity+10) / 25) - 90)/2;
+	}
+	//rotation =  ((90 * (yVelocity+10) / 25) - 90)/2;
 
 	if (!active)
 		rotation = 0;

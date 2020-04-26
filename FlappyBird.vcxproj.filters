@@ -17,7 +17,6 @@
     <ClInclude Include="Components\ScrollingBackground.h" />
     <ClInclude Include="Components\Renderer.h" />
     <ClInclude Include="Components\Pipe.h" />
-    <ClInclude Include="Components\ThreadPool.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />

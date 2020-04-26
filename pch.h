@@ -41,6 +41,8 @@
 #include <DirectXMath.h>
 #include <DirectXColors.h>
 
+
+
 #include <algorithm>
 #include <exception>
 #include <memory>
@@ -49,6 +51,7 @@
 #include <sstream>
 #include <math.h>
 #include <stdlib.h>
+
 #include <thread>
 #include <vector>
 #include <queue>
@@ -56,6 +59,8 @@
 #include <condition_variable>
 #include <future>
 #include <functional>
+#include <stdexcept>
+
 
 //DirectxTK
 #include "CommonStates.h"

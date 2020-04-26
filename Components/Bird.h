@@ -2,7 +2,7 @@
 #include "pch.h"
 #include "pipe.h"
 #include "Renderer.h"
-#include "ThreadPool.h"
+
 
 using namespace DirectX::SimpleMath;
 class Bird
@@ -24,6 +24,7 @@ private:
 	Pipe** pipes;
 
 	int w, h;
+
 
 	bool collisionDetection(Vector2* birdPoints, Vector2* pipePoints);
 
