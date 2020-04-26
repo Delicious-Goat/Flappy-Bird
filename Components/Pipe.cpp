@@ -16,6 +16,13 @@ void Pipe::Draw(Renderer& renderer)
 	renderer.DrawPipe(screenPos);
 }
 
+void Pipe::Reset()
+{
+	screenPos.x = 1700 + index * (1600 / 4);
+
+	screenPos.y = rand() % 400 + 200;
+}
+
 void Pipe::Update(float deltaX)
 {
 	screenPos.x -= deltaX;

@@ -2,12 +2,12 @@
 // Game.cpp
 //
 
-/*
+
 #include <iostream>
 #include <string>
 #include <sstream>
 
-
+/*
 std::wstringstream wss(L"");
 wss << rot << " " << " " << "\n";
 OutputDebugString(wss.str().c_str());
@@ -71,6 +71,7 @@ void Game::Initialize(HWND window, int width, int height)
     keyboard = std::make_unique<Keyboard>();
     mouse = std::make_unique<Mouse>();
     mouse->SetWindow(window);
+
     // TODO: Change the timer settings if you want something other than the default variable timestep mode.
     // e.g. for 60 FPS fixed timestep update logic, call:
     /*
@@ -97,13 +98,8 @@ void Game::Input()
     auto state = keyboard->GetState();
     tracker.Update(state);
 
-    if (kb.Escape)
-    {
-        ExitGame();
-    }
     if (tracker.pressed.Space)
     {
-
         if (!active)
             active = true;
         bird->Flap();
@@ -122,29 +118,43 @@ void Game::Update(DX::StepTimer const& timer)
     float elapsedTime = float(timer.GetElapsedSeconds());
     float time = float(timer.GetTotalSeconds());
 
-    if (bird->isDead())
-    {
-        bird->Update(int(timer.GetFrameCount()), active);
-        return;
-
-    }
-
     ground->Update(elapsedTime*speed);
     background->Update(elapsedTime * speed*.2);
 
     if (active)
     {
         bird->Update(int(timer.GetFrameCount()), active);
+        
+        if (bird->isDead())
+        {
+            if (bird->getScreenPos().y <= 740)
+            {
+                bird->Update(int(timer.GetFrameCount()), active);
+            }
+            else
+            {
+                bird->Reset();
+                for (int i = 0; i < 6; i++)
+                {
+                    pipes[i]->Reset();
+                }
+                active = false;
+            }
+
+        }
+
         for (int i = 0; i < 6; i++)
         {
             pipes[i]->Update(elapsedTime * speed);
         }
         
-    }else
+    }
+    else
     {
         bird->setY(350 + sinf(6.28*timer.GetFrameCount()/100)*40);
         bird->Update(int(timer.GetFrameCount()), active);
     }
+
 
     elapsedTime;
 

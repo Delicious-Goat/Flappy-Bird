@@ -10,11 +10,14 @@ Bird::Bird(Pipe* pipesInit[6]) :
 	currentFrame(0),
 	rotation(0),
 	yVelocity(0),
-	screenHeight(0)
+	screenHeight(0),
+	score(0)
 {
 	pipes = pipesInit;
 	screenPos.y = 500;
 	screenPos.x = 100;
+
+	yPosInit = 500;
 }
 
 Bird::~Bird()
@@ -44,36 +47,6 @@ Vector2* Bird::getPipePoints(Vector2* points, int index, int top)
 	return points;
 }
 
-Vector2 rotVec(Vector2 vector, float rotation)
-{
-	return  Vector2(cos(rotation) * vector.x - sin(rotation) * vector.x,
-					sin(rotation) * vector.y + cos(rotation) * vector.y);
-
-
-}
-
-Vector2* rotate(Vector2* points, int rot, int x_pivot, int y_pivot)
-{
-	float angle = rot * (180 / 3.1415);
-
-	for(int i = 0; i<5; i++)
-	{
-		// Shifting the pivot point to the origin 
-		// and the given points accordingly 
-		int x_shifted = points[i].x - x_pivot;
-		int y_shifted = points[i].y - y_pivot;
-
-		// Calculating the rotated point co-ordinates 
-		// and shifting it back 
-		points[i].x = x_pivot + (x_shifted * cos(angle)
-							  - y_shifted * sin(angle));
-		points[i].y = y_pivot + (x_shifted * sin(angle)
-							  + y_shifted * cos(angle));
-	}
-
-	return points;
-
-}
 
 Vector2* Bird::getBirdPoints(Vector2* points)
 {
@@ -116,8 +89,9 @@ void Bird::Flap()
 {
 	if (dead)
 		return;
+
+	yVelocity -= lift;	
 	
-	yVelocity -= lift;
 }
 
 
@@ -130,7 +104,7 @@ void Bird::Update(int frameCount, bool active)
 		if (rotation > 90)
 			rotation = 90;
 
-		yVelocity += gravity * 3;
+		yVelocity += gravity;
 		screenPos.y += yVelocity;
 
 		if (screenPos.y > screenHeight - 230)
@@ -181,8 +155,10 @@ void Bird::Update(int frameCount, bool active)
 
 	//Only apply gravity during active game
 	if (active)
+	{
 		yVelocity += gravity;
-
+	}
+		
 
 	//Cap up velocity
 	if (yVelocity < -15)
@@ -215,28 +191,32 @@ void Bird::Update(int frameCount, bool active)
 	
 
 	//Set rotation in relation to velocity
-	//rotation = yVelocity * 5;
-
-	//TODO: improve this algorithm 
 	
-	if (rotation < -40)
-	{
-		rotation = -40;
+	if (yVelocity < 15) {
+		rotation = -10;                    // going up, point up
 	}
-	if (rotation > 10)
-	{
-		rotation = 10;
+	else if (rotation < 90) {                   // max downward tilt is 70 degrees 
+		rotation += 4;      // going down, point more and more down
 	}
-	//rotation =  ((90 * (yVelocity+10) / 25) - 90)/2;
-
+	
+	//only rotation if active
 	if (!active)
 		rotation = 0;
+
 }
 
 void Bird::Draw(Renderer& renderer)
 {	
 	// convert rotation from degrees to radians then draw
 	renderer.DrawBird(screenPos, rotation * (3.14 / 180), currentFrame);
+}
+
+void Bird::Reset()
+{
+	dead = false;
+	screenPos.y = yPosInit;
+	yVelocity = 0;
+	score = 0;
 }
 
 void Bird::setScreenPos(Vector2 newPos)
@@ -248,5 +228,6 @@ void Bird::setScreenPos(Vector2 newPos)
 void Bird::setScreenHeight(int height)
 {
 	screenHeight = height;
-	screenPos.y = (height - 250) / 2;
+	screenPos.y = (height - 260) / 2;
+	yPosInit = (height - 260) / 2;
 }

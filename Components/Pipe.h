@@ -14,6 +14,7 @@ public:
 
 	void Update(float deltaX);
 	void Draw(Renderer& renderer);
+	void Reset();
 
 	inline int getX() { return screenPos.x; }
 	inline int getW() { return w; }

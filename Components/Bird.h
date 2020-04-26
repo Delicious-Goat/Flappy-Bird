@@ -9,6 +9,7 @@ class Bird
 {
 private:
 	Vector2 screenPos;
+	int yPosInit;
 	float yVelocity;
 	int screenHeight;
 
@@ -21,10 +22,14 @@ private:
 	
 	bool dead;
 
+	float score;
+
 	Pipe** pipes;
 
 	int w, h;
 
+	Vector2* getBirdPoints(Vector2* points);
+	Vector2* getPipePoints(Vector2* points, int index, int top);
 
 	bool collisionDetection(Vector2* birdPoints, Vector2* pipePoints);
 
@@ -32,13 +37,11 @@ public:
 	Bird(Pipe* pipesInit[6]);
 	~Bird();
 
-	//Move private
-	Vector2* getBirdPoints(Vector2* points);
-	Vector2* getPipePoints(Vector2* points, int index, int top);
 
 	void Flap();
 	void Update(int frameCount, bool active);
 	void Draw(Renderer& renderer);
+	void Reset();
 
 
 	void setScreenPos(Vector2 newPos);
@@ -47,6 +50,7 @@ public:
 	inline Vector2 Bird::getScreenPos() { return screenPos; }
 	inline void setX(int newX) { screenPos.x = newX; }
 	inline void setY(int newY) { screenPos.y = newY; }
+	inline void setRotation(int rot) { rotation = rot; }
 	inline int getYVelocity() { return yVelocity; }
 	inline void setYVelocity(int newYVelocity) { yVelocity = newYVelocity; }
 	inline bool isDead() { return dead; }

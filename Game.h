@@ -80,7 +80,7 @@ private:
     Renderer renderer;
 
     //Speed
-    const float speed = 500;
+    float speed = 500;
     bool active;
 
     //Background
