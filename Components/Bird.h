@@ -39,7 +39,7 @@ public:
 
 
 	void Flap();
-	void Update(int frameCount, bool active);
+	void Update(int frameCount);
 	void Draw(Renderer& renderer);
 	void Reset();
 

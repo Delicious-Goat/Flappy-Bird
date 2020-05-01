@@ -9,7 +9,7 @@
 
 /*
 std::wstringstream wss(L"");
-wss << rot << " " << " " << "\n";
+wss << " " << " " << " " << "\n";
 OutputDebugString(wss.str().c_str());
 */
 
@@ -44,7 +44,6 @@ Game::Game() noexcept :
     background = new ScrollingBackground;
     ground = new ScrollingBackground;
 
-    active = false;
 }
 
 Game::~Game()
@@ -102,20 +101,13 @@ void Game::Input()
     auto state = keyboard->GetState();
     tracker.Update(state);
 
-    /*
+    
     if (tracker.pressed.Space)
     {
-        if (!active)
-            active = true;
-        bird->Flap();
+        ExitGame();
     }
-    if (mouseState.leftButton)
-    {
-        if (!active)
-            active = true;
-        bird->Flap();
-    }
-    */
+
+    
 }
 
 // Updates the world.
@@ -132,45 +124,7 @@ void Game::Update(DX::StepTimer const& timer)
         pipes[i]->Update(elapsedTime * speed);
     }
 
-    ai->Update(timer.GetFrameCount(), true);
-
-    /*
-    if (active)
-    {
-        bird->Update(int(timer.GetFrameCount()), active);
-        
-        if (bird->isDead())
-        {
-            if (bird->getScreenPos().y <= 740)
-            {
-                bird->Update(int(timer.GetFrameCount()), active);
-            }
-            else
-            {
-                bird->Reset();
-                for (int i = 0; i < 6; i++)
-                {
-                    pipes[i]->Reset();
-                }
-                active = false;
-            }
-
-        }
-
-        for (int i = 0; i < 6; i++)
-        {
-            pipes[i]->Update(elapsedTime * speed);
-        }
-        
-    }
-    else
-    {
-        bird->setY(350 + sinf(6.28*timer.GetFrameCount()/100)*40);
-        bird->Update(int(timer.GetFrameCount()), active);
-    }
-    */
-
-    elapsedTime;
+    ai->Update(timer.GetFrameCount());
 
     Input();
 

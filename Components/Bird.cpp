@@ -94,28 +94,8 @@ void Bird::Flap()
 }
 
 
-void Bird::Update(int frameCount, bool active)
+void Bird::Update(int frameCount)
 {
-	/*
-	if (dead)
-	{
-		rotation += 10;
-		if (rotation > 90)
-			rotation = 90;
-
-		yVelocity += gravity;
-		screenPos.y += yVelocity;
-
-		if (screenPos.y > screenHeight - 230)
-		{
-			screenPos.y = screenHeight - 230;
-			yVelocity = 0;
-		}
-
-		return;
-	}
-	*/
-
 	/*CHECK COLLISION HERE*/
 
 	Vector2 birdPointsArr[6];
@@ -154,10 +134,9 @@ void Bird::Update(int frameCount, bool active)
 
 
 	//Only apply gravity during active game
-	if (active)
-	{
-		yVelocity += gravity;
-	}
+
+	yVelocity += gravity;
+	
 		
 
 	//Cap up velocity
@@ -174,7 +153,7 @@ void Bird::Update(int frameCount, bool active)
 		yVelocity = 0;
 	}
 
-	if (screenPos.y < -50)
+	if (screenPos.y < -20)
 		dead = true;
 
 	//Animation
@@ -199,9 +178,6 @@ void Bird::Update(int frameCount, bool active)
 		rotation += 4;      // going down, point more and more down
 	}
 	
-	//only rotation if active
-	if (!active)
-		rotation = 0;
 
 }
 

@@ -20,6 +20,7 @@ public:
     MatrixXd biasesHO;
 
 public:
+
 	NeuralNetwork(int in, int hid, int out)
 	{
         weightsIH = MatrixXd::Random(hid,in);
@@ -39,6 +40,7 @@ public:
         biasesIH = net.biasesIH;
         biasesHO = net.biasesHO;
     }
+
     NeuralNetwork(std::shared_ptr<NeuralNetwork> net)
     {
         weightsIH = net->weightsIH;
@@ -59,15 +61,48 @@ public:
 
         
         if (finalOutputs(0) > finalOutputs(1))
-            return 1;
-        return 0; 
+            return 0;
+        return 1; 
     }
 
     void mutate(double rate)
     {
        srand((unsigned)time(NULL));
        weightsIH.unaryExpr([&](double x) {
-           if (rand()%1 < rate)
+           if ((double)rand() / (double)RAND_MAX < rate)
+           {
+
+               return ((double)rand() / (double)RAND_MAX);
+           }
+           else
+           {
+               return x;
+           }
+       });
+       weightsHO.unaryExpr([&](double x) {
+           if ((double)rand() / (double)RAND_MAX < rate)
+           {
+
+               return ((double)rand() / (double)RAND_MAX);
+           }
+           else
+           {
+               return x;
+           }
+        });
+       biasesIH.unaryExpr([&](double x) {
+           if ((double)rand() / (double)RAND_MAX < rate)
+           {
+
+               return ((double)rand() / (double)RAND_MAX);
+           }
+           else
+           {
+               return x;
+           }
+       });
+       biasesHO.unaryExpr([&](double x) {
+           if ((double)rand() / (double)RAND_MAX < rate)
            {
 
                return ((double)rand() / (double)RAND_MAX);

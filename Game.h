@@ -82,7 +82,6 @@ private:
 
     //Speed
     float speed = 500;
-    bool active;
 
     //Background
     ScrollingBackground* background;
