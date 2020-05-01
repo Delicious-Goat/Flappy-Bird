@@ -10,6 +10,7 @@
 #include "Bird.h"
 #include "Pipe.h"
 #include "pch.h"
+#include "AI/FlappyBirdAi.h"
 
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
@@ -88,7 +89,8 @@ private:
     ScrollingBackground* ground;
 
     //Bird
-    Bird* bird;
+    //Bird* bird;
+    FlappyBirdAi* ai;
 
     //Pipe
     Pipe* pipes[6];

@@ -1,0 +1,16 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/Users/hartenc/source/repos/Delicious-Goat/Flappy-Bird/Vendor/eigen/test/ref.cpp"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"BuildOfficial"
+		],
+		"name" : "ref_7"
+	}
+}

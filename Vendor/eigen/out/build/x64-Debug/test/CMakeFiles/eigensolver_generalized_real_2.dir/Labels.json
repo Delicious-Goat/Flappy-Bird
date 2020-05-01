@@ -1,0 +1,16 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/Users/hartenc/source/repos/Delicious-Goat/Flappy-Bird/Vendor/eigen/test/eigensolver_generalized_real.cpp"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"BuildOfficial"
+		],
+		"name" : "eigensolver_generalized_real_2"
+	}
+}

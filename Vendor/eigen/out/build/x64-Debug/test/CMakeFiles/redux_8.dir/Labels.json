@@ -1,0 +1,16 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/Users/hartenc/source/repos/Delicious-Goat/Flappy-Bird/Vendor/eigen/test/redux.cpp"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"BuildOfficial"
+		],
+		"name" : "redux_8"
+	}
+}

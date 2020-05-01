@@ -1,0 +1,16 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/Users/hartenc/source/repos/Delicious-Goat/Flappy-Bird/Vendor/eigen/test/geo_orthomethods.cpp"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"BuildOfficial"
+		],
+		"name" : "geo_orthomethods_6"
+	}
+}

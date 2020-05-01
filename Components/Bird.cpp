@@ -3,7 +3,7 @@
 #include "Bird.h"
 
 using namespace DirectX::SimpleMath;
-Bird::Bird(Pipe* pipesInit[6]) :
+Bird::Bird() :
 	w(50),
 	h(35),
 	dead(false),
@@ -13,7 +13,6 @@ Bird::Bird(Pipe* pipesInit[6]) :
 	screenHeight(0),
 	score(0)
 {
-	pipes = pipesInit;
 	screenPos.y = 500;
 	screenPos.x = 100;
 

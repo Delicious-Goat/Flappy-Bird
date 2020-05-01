@@ -34,7 +34,7 @@ private:
 	bool collisionDetection(Vector2* birdPoints, Vector2* pipePoints);
 
 public:
-	Bird(Pipe* pipesInit[6]);
+	Bird();
 	~Bird();
 
 
@@ -47,9 +47,12 @@ public:
 	void setScreenPos(Vector2 newPos);
 	void setScreenHeight(int height);
 
+	inline void initPipes(Pipe* pipesInit[6]) { pipes = pipesInit; }
+	inline Pipe** getPipes() { return pipes; }
 	inline Vector2 Bird::getScreenPos() { return screenPos; }
 	inline void setX(int newX) { screenPos.x = newX; }
 	inline void setY(int newY) { screenPos.y = newY; }
+	inline int getY() { return screenPos.y; }
 	inline void setRotation(int rot) { rotation = rot; }
 	inline int getYVelocity() { return yVelocity; }
 	inline void setYVelocity(int newYVelocity) { yVelocity = newYVelocity; }

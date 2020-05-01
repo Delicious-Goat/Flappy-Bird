@@ -36,7 +36,10 @@ Game::Game() noexcept :
         pipes[i] = new Pipe(i);
     }
 
-    bird = new Bird(pipes);
+    //bird = new Bird();
+    //bird->initPipes(pipes);
+
+    ai = new FlappyBirdAi(pipes);
 
     background = new ScrollingBackground;
     ground = new ScrollingBackground;
@@ -46,7 +49,8 @@ Game::Game() noexcept :
 
 Game::~Game()
 { 
-    delete bird;
+    //delete bird;
+    delete ai;
 
     for (int i = 5; i >= 0; i--)
     {
@@ -98,6 +102,7 @@ void Game::Input()
     auto state = keyboard->GetState();
     tracker.Update(state);
 
+    /*
     if (tracker.pressed.Space)
     {
         if (!active)
@@ -110,6 +115,7 @@ void Game::Input()
             active = true;
         bird->Flap();
     }
+    */
 }
 
 // Updates the world.
@@ -121,6 +127,14 @@ void Game::Update(DX::StepTimer const& timer)
     ground->Update(elapsedTime*speed);
     background->Update(elapsedTime * speed*.2);
 
+    for (int i = 0; i < 6; i++)
+    {
+        pipes[i]->Update(elapsedTime * speed);
+    }
+
+    ai->Update(timer.GetFrameCount(), true);
+
+    /*
     if (active)
     {
         bird->Update(int(timer.GetFrameCount()), active);
@@ -154,6 +168,10 @@ void Game::Update(DX::StepTimer const& timer)
         bird->setY(350 + sinf(6.28*timer.GetFrameCount()/100)*40);
         bird->Update(int(timer.GetFrameCount()), active);
     }
+    */
+
+
+
 
 
     elapsedTime;
@@ -186,8 +204,8 @@ void Game::Render()
 
     ground->Draw(renderer, 1);
 
-    bird->Draw(renderer);
-
+    //bird->Draw(renderer);
+    ai->Draw(renderer);
 
     renderer.EndSpriteBatch();
 
@@ -438,8 +456,8 @@ void Game::CreateResources()
     renderer.SetWindow(backBufferWidth, backBufferHeight);
     
     //TODO get rid of this
-    bird->setX(backBufferWidth / 5);
-    bird->setScreenHeight(backBufferHeight);
+    ai->setX(backBufferWidth / 5);
+    ai->setScreenHeight(backBufferHeight);
 
    // ground->SetWindow(backBufferWidth, backBufferHeight);
     background->SetWindow(backBufferWidth, backBufferHeight,0);
