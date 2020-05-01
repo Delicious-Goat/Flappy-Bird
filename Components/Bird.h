@@ -43,7 +43,6 @@ public:
 	void Draw(Renderer& renderer);
 	void Reset();
 
-
 	void setScreenPos(Vector2 newPos);
 	void setScreenHeight(int height);
 
@@ -59,5 +58,7 @@ public:
 	inline bool isDead() { return dead; }
 	inline void kill() { dead = true; }
 	inline int getRotation() { return rotation; }
+
+	int fitness = 0;
 };
 

@@ -96,7 +96,7 @@ void Bird::Flap()
 
 void Bird::Update(int frameCount, bool active)
 {
-
+	/*
 	if (dead)
 	{
 		rotation += 10;
@@ -114,6 +114,7 @@ void Bird::Update(int frameCount, bool active)
 
 		return;
 	}
+	*/
 
 	/*CHECK COLLISION HERE*/
 

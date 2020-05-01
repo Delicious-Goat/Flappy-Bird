@@ -170,10 +170,6 @@ void Game::Update(DX::StepTimer const& timer)
     }
     */
 
-
-
-
-
     elapsedTime;
 
     Input();

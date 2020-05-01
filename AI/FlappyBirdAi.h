@@ -1,4 +1,5 @@
 #pragma once
+#include "pch.h"
 #include "bird.h"
 #include "NeuralNetwork.h"
 
@@ -7,44 +8,119 @@
 class FlappyBirdAi
 {
 private:
-	Bird* birds[popSize];
 
-	NeuralNetwork* brains[popSize];
+
+	std::vector<std::shared_ptr<Bird>> birds;
+	std::vector<std::shared_ptr<Bird>> deadBirds;
+	std::vector<std::shared_ptr<NeuralNetwork>> brains;
+
+	double fitnesses[popSize];
 
 public:
 	FlappyBirdAi(Pipe** pipes)
 	{
+		
 		for (int i = 0; i < popSize; i++)
 		{
-			birds[i] = new Bird;
-			birds[i]->initPipes(pipes);
+			birds.push_back(std::make_shared<Bird>());
 
-			brains[i] = new NeuralNetwork(14, 20, 2);
+			birds[i]->initPipes(pipes);
+			
+			brains.push_back(std::make_shared<NeuralNetwork>(14, 20, 2));
 		}
+		
 	}
 	~FlappyBirdAi()
 	{
-		for (int i = popSize; i > 0; i--)
-		{
-			delete birds[i];
-
-			delete brains[i];
-		}
+		birds.clear();
+		deadBirds.clear();
+		brains.clear();
 	}
 	void Draw(Renderer& renderer)
 	{
+		if (birds.empty())
+		{
+			return;
+		}
+		for (int i = 0; i < birds.size(); i++)
+		{
+		
+			birds[i]->Draw(renderer);
+		}		
+	}
+	void calculateFitness()
+	{
+		//calculate sum
+		double sum = 0;
 		for (int i = 0; i < popSize; i++)
 		{
-			birds[i]->Draw(renderer);
+			sum += deadBirds[i]->fitness;
+		}
+
+		//normalize fitness
+		for (int i = 0; i < popSize; i++)
+		{
+			fitnesses[i] = deadBirds[i]->fitness / sum;
 		}
 	}
-	void Update(int frameCount, bool active)
+
+	int pickOne()
 	{
+		return rand() % popSize;
+	}
+	void nextGen(Pipe** pipes)
+	{
+		//pick a brain based on fitnesses
+		calculateFitness();
+		int picked = pickOne();
+
+		//create the parent
+		std::shared_ptr<NeuralNetwork> parent = brains[picked];
+
+		//clear brains vector
+		brains.clear();
+
+		//generate new brains
+		for(int i = 0; i<popSize; i ++)
+		{
+			brains.push_back(std::make_shared<NeuralNetwork>(parent));
+		}
+
+		//mutate every brain
 		for (int i = 0; i < popSize; i++)
 		{
+			brains[i]->mutate(.1);
+		}
+
+		//Reset pipes
+		for (int i = 0; i < 6; i++)
+		{
+			pipes[i]->Reset();
+		}
+
+		//clear dead birds
+		deadBirds.clear();
+
+		birds.clear();
+
+		//create new birds
+		for (int i = 0; i < popSize; i++)
+		{
+			birds.push_back(std::make_shared<Bird>());
+			birds[i]->initPipes(pipes);
+		}
+
+	}
+
+	void Update(int frameCount, bool active)
+	{
+		auto pipes = birds[0]->getPipes();
+
+		
+
+		for (int i = 0; i < birds.size(); i++)
+		{
 			birds[i]->Update(frameCount, active);
-			
-			auto pipes = birds[i]->getPipes();
 
 			MatrixXd input(14,1);
 			input << birds[i]->getYVelocity(),birds[i]->getY(),
@@ -64,21 +140,42 @@ public:
 			}
 			
 			
+			if (birds[i]->isDead())
+			{
+				deadBirds.push_back(birds[i]);
+				birds.erase(birds.begin() + i);
 
+				//all birds are dead
+				if (birds.empty())
+				{
+					nextGen(pipes);
+
+					return;
+				}
+			}
+			else {
+				birds[i]->fitness++;
+			}
 		}
 	}
+
 	void setX(int x)
 	{
-		for (int i = 0; i < popSize; i++)
+		
+		for (int i = 0; i < birds.size(); i++)
 		{
 			birds[i]->setX(x);
 		}
+		
 	}
+
 	void setScreenHeight(int h)
 	{
-		for (int i = 0; i < popSize; i++)
+		
+		for (int i = 0; i < birds.size(); i++)
 		{
 			birds[i]->setScreenHeight(h);
 		}
+		
 	}
 };
