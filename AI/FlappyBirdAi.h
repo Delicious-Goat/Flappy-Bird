@@ -3,7 +3,7 @@
 #include "bird.h"
 #include "NeuralNetwork.h"
 
-#define popSize 100
+#define popSize 250
 
 class FlappyBirdAi
 {
@@ -26,17 +26,17 @@ public:
 
 			birds[i]->initPipes(pipes);
 			
-			brains.push_back(std::make_shared<NeuralNetwork>(14, 20, 2));
+			brains.push_back(std::make_shared<NeuralNetwork>(4, 10, 2));
 		}
 		
 	}
 	~FlappyBirdAi()
 	{
-		for (int i = birds.size(); i >= 0; i--)
+		for (int i = birds.size()-1; i >= 0; i--)
 		{
 			delete birds[i];
 		}
-		for (int i = deadBirds.size(); i >= 0; i--)
+		for (int i = deadBirds.size()-1; i >= 0; i--)
 		{
 			delete deadBirds[i];
 		}
@@ -57,25 +57,57 @@ public:
 	{
 		//calculate sum
 		double sum = 0;
+
 		for (int i = 0; i < popSize; i++)
 		{
-			sum += deadBirds[i]->fitness;
+			sum += (deadBirds[i]->fitness - 200)/100;
 		}
 
 		//normalize fitness
 		for (int i = 0; i < popSize; i++)
 		{
-			fitnesses[i] = deadBirds[i]->fitness / sum;
+			fitnesses[i] = ((deadBirds[i]->fitness - 200) / 100) / sum;
 		}
+
 	}
 
 	int pickOne()
 	{
-		return rand() % popSize;
+		int* indices = new int[10000];
+		int counter = 0;
+		for (int i = 0; i < popSize; i++)
+		{
+			int num = fitnesses[i] * 10000;
+			for (int j = 0; j < num; j++)
+			{
+				indices[counter] = i;
+				counter++;
+			}
+		}
+
+		int r = rand() % 10000;
+
+		int picked = indices[r];
+
+		delete[] indices;
+
+		return picked;
+
+		/*
+		std::wstringstream wss(L"");
+		double sum = 0;
+		for (int i = 0; i < popSize; i++)
+		{
+			wss << fitnesses[i] << " ";
+			sum += fitnesses[i];
+		}
+		wss << std::endl << sum<<std::endl;
+		OutputDebugString(wss.str().c_str());
+		*/
+
 	}
 	void nextGen(Pipe** pipes)
 	{
-
 		//pick a brain based on fitnesses
 		calculateFitness();
 		int picked = pickOne();
@@ -91,12 +123,31 @@ public:
 		{
 			brains.emplace_back(std::make_shared<NeuralNetwork>(parent));
 		}
-
+		
+		
 		//mutate every brain
 		for (int i = 0; i < popSize; i++)
 		{
-			brains[i]->mutate(1);
+			brains[i]->mutate(.05);
 		}
+		
+		/*
+		for (int i = 0; i < popSize; i++)
+		{
+			std::wstringstream wss(L"");
+			for (int j = 0; j < 5; j++)
+			{
+				wss << brains[i]->weightsIH(j) << " ";
+			}
+			OutputDebugString(wss.str().c_str());
+			OutputDebugStringA("\n");
+		}
+		
+		std::wstringstream wss(L"");
+		wss << brains[0]->weightsIH(3) << " ";
+		OutputDebugString(wss.str().c_str());
+		*/
+
 
 		//Reset pipes
 		for (int i = 0; i < 6; i++)
@@ -112,27 +163,36 @@ public:
 		}
 		deadBirds.clear();
 
+	}
 
-		
+	static int nearestPipe(Pipe** pipes, int birdX) 
+	{
+		int nearestDistance = 0;
+		int index = 0; 
+		for (int i = 0; i < 6; i++)
+		{
+			if (pipes[i]->getX() < nearestDistance && pipes[i]->getX() > birdX)
+			{
+				nearestDistance = pipes[i]->getX() - birdX;
+				index = i;
+			}
+		}
 
+		return index;
 	}
 
 	void Update(int frameCount)
 	{
 		auto pipes = birds[0]->getPipes();
-
+		int nearestIndex = nearestPipe(pipes, birds[0]->getX());
+		Pipe* nearestPipe = pipes[nearestIndex];
 		for (int i = 0; i < birds.size(); i++)
 		{
 			birds[i]->Update(frameCount);
 
-			MatrixXd input(14,1);
-			input << birds[i]->getYVelocity(),birds[i]->getY(),
-					pipes[0]->getX(), pipes[0]->getGapH(),
-					pipes[1]->getX(), pipes[1]->getGapH(),
-					pipes[2]->getX(), pipes[2]->getGapH(),
-					pipes[3]->getX(), pipes[3]->getGapH(),
-					pipes[4]->getX(), pipes[4]->getGapH(),
-					pipes[5]->getX(), pipes[5]->getGapH();
+			MatrixXd input(4,1);
+			input << birds[i]->getYVelocity(), birds[i]->getY(),
+					 nearestPipe->getX(), nearestPipe->getGapH();
 
 
 			int result = brains[i]->feedForward(input);
@@ -152,8 +212,6 @@ public:
 				if (birds.empty())
 				{
 					nextGen(pipes);
-
-
 
 					return;
 				}

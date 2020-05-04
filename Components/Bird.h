@@ -52,6 +52,7 @@ public:
 	inline void setX(int newX) { screenPos.x = newX; }
 	inline void setY(int newY) { screenPos.y = newY; }
 	inline int getY() { return screenPos.y; }
+	inline int getX() { return screenPos.x; }
 	inline void setRotation(int rot) { rotation = rot; }
 	inline int getYVelocity() { return yVelocity; }
 	inline void setYVelocity(int newYVelocity) { yVelocity = newYVelocity; }

@@ -8,10 +8,12 @@ class NeuralNetwork
 {
 private:
 
-    static double sigmoid(int x)
+    static double sigmoid(double x)
     {
         return 1 / (1 + exp(-x));
     }
+
+
 
 public:
     MatrixXd weightsIH;
@@ -65,53 +67,50 @@ public:
         return 1; 
     }
 
+    double mutateFunc()
+    {
+        if ((double)rand() / RAND_MAX)
+        {
+            return (double)rand() / RAND_MAX;
+        }
+    }
+
     void mutate(double rate)
     {
-       srand((unsigned)time(NULL));
-       weightsIH.unaryExpr([&](double x) {
-           if ((double)rand() / (double)RAND_MAX < rate)
-           {
+        for (int i = 0; i < weightsIH.rows(); i++)
+        {
+            for (int j = 0; j < weightsIH.cols(); j++)
+            {
+                if((double)rand() / RAND_MAX <rate)
+                    weightsIH(i, j) = mutateFunc();
+            }
+        }
+        for (int i = 0; i < weightsHO.rows(); i++)
+        {
+            for (int j = 0; j < weightsHO.cols(); j++)
+            {
+                if ((double)rand() / RAND_MAX < rate)
+                    weightsHO(i, j) = mutateFunc();
+            }
+        }
+        for (int i = 0; i < biasesIH.rows(); i++)
+        {
+            for (int j = 0; j < biasesIH.cols(); j++)
+            {
+                if ((double)rand() / RAND_MAX < rate)
+                    biasesIH(i, j) = mutateFunc();
+            }
+        }
+        for (int i = 0; i < biasesHO.rows(); i++)
+        {
+            for (int j = 0; j < biasesHO.cols(); j++)
+            {
+                if ((double)rand() / RAND_MAX < rate)
+                    biasesHO(i, j) = mutateFunc();
+            }
+        }
 
-               return ((double)rand() / (double)RAND_MAX);
-           }
-           else
-           {
-               return x;
-           }
-       });
-       weightsHO.unaryExpr([&](double x) {
-           if ((double)rand() / (double)RAND_MAX < rate)
-           {
 
-               return ((double)rand() / (double)RAND_MAX);
-           }
-           else
-           {
-               return x;
-           }
-        });
-       biasesIH.unaryExpr([&](double x) {
-           if ((double)rand() / (double)RAND_MAX < rate)
-           {
-
-               return ((double)rand() / (double)RAND_MAX);
-           }
-           else
-           {
-               return x;
-           }
-       });
-       biasesHO.unaryExpr([&](double x) {
-           if ((double)rand() / (double)RAND_MAX < rate)
-           {
-
-               return ((double)rand() / (double)RAND_MAX);
-           }
-           else
-           {
-               return x;
-           }
-       });
     }
 
 };
