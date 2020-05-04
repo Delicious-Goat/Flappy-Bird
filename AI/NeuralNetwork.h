@@ -81,7 +81,7 @@ public:
         {
             for (int j = 0; j < weightsIH.cols(); j++)
             {
-                if((double)rand() / RAND_MAX <rate)
+                if((double)rand() / RAND_MAX < rate)
                     weightsIH(i, j) = mutateFunc();
             }
         }

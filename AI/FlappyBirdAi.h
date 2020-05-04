@@ -16,17 +16,19 @@ private:
 
 	double fitnesses[popSize];
 
+
 public:
 	FlappyBirdAi(Pipe** pipes)
 	{
-		
+		srand(time(NULL));
+
 		for (int i = 0; i < popSize; i++)
 		{
 			birds.emplace_back(new Bird);
 
 			birds[i]->initPipes(pipes);
 			
-			brains.push_back(std::make_shared<NeuralNetwork>(4, 10, 2));
+			brains.push_back(std::make_shared<NeuralNetwork>(4, 4, 2));
 		}
 		
 	}
@@ -73,25 +75,26 @@ public:
 
 	int pickOne()
 	{
-		int* indices = new int[10000];
-		int counter = 0;
-		for (int i = 0; i < popSize; i++)
-		{
-			int num = fitnesses[i] * 10000;
-			for (int j = 0; j < num; j++)
-			{
-				indices[counter] = i;
-				counter++;
-			}
+		int index = 0;
+
+		double r = (double)rand()/RAND_MAX;
+
+
+
+
+		while (r > 0) {
+			r -= fitnesses[index];
+			index++;
 		}
+		index--;
 
-		int r = rand() % 10000;
+		std::wstringstream wss(L"");
+		wss << "\n" << index << "";
+		OutputDebugString(wss.str().c_str());
 
-		int picked = indices[r];
+		return index;
 
-		delete[] indices;
 
-		return picked;
 
 		/*
 		std::wstringstream wss(L"");
@@ -128,7 +131,7 @@ public:
 		//mutate every brain
 		for (int i = 0; i < popSize; i++)
 		{
-			brains[i]->mutate(.05);
+			brains[i]->mutate(.01);
 		}
 		
 		/*

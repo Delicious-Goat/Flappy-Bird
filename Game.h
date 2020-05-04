@@ -81,7 +81,7 @@ private:
     Renderer renderer;
 
     //Speed
-    float speed = 500;
+    float speed = 400;
 
     //Background
     ScrollingBackground* background;
