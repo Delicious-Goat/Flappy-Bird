@@ -28,7 +28,7 @@ public:
 
 			birds[i]->initPipes(pipes);
 			
-			brains.push_back(std::make_shared<NeuralNetwork>(4, 4, 2));
+			brains.push_back(std::make_shared<NeuralNetwork>(4, 1, 2));
 		}
 		
 	}
@@ -88,9 +88,6 @@ public:
 		}
 		index--;
 
-		std::wstringstream wss(L"");
-		wss << "\n" << index << "";
-		OutputDebugString(wss.str().c_str());
 
 		return index;
 
@@ -195,7 +192,7 @@ public:
 
 			MatrixXd input(4,1);
 			input << birds[i]->getYVelocity(), birds[i]->getY(),
-					 nearestPipe->getX(), nearestPipe->getGapH();
+					 nearestPipe->getX()-birds[i]->getX(), nearestPipe->getGapH();
 
 
 			int result = brains[i]->feedForward(input);

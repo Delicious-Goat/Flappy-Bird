@@ -7,7 +7,7 @@ private:
 	Vector2 screenPos;
 	int index;
 	const int w = 160;
-	int gapSize = 200;
+	int gapSize = 284;
 public:
 	Pipe(int initX);
 	~Pipe() = default;
